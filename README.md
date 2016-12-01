@@ -5,7 +5,12 @@ GransLive Buddy
 
 
 ## Usage
+Run Following Commands to build the application
+npm install
+grunt
 
+Run below command to run the application
+grunt start
 
 
 ## Developing
