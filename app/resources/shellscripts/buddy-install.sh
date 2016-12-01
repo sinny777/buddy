@@ -120,11 +120,11 @@ fi
 cd ..
 
 if [ ! -d "buddy" ]; then
-	echo "<<<< GOING TO CREATE GRANSLIVE APPLICATION >>>>>"
+	echo "<<<< GOING TO CREATE GRANSLIVE BUDDY APPLICATION >>>>>"
 	sudo git clone https://github.com/sinny777/buddy.git
 	cd buddy
 else
-	echo "<<<< GOING TO UPDATE GRANSLIVE APPLICATION >>>>>"
+	echo "<<<< GOING TO UPDATE GRANSLIVE BUDDY APPLICATION >>>>>"
 	cd buddy
 	sudo git fetch --all
 	sudo git reset --hard origin/master
