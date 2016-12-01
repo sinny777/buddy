@@ -6,7 +6,7 @@ var conversationHandler = require('../handlers/conversationHandler')();
 var cp = require('child_process');
 var format = require('util').format;
 var fs = require('fs');
-var gcloud = require('google-cloud');
+const GOOGLE_SPEECH = require('@google-cloud/speech');
 var watson = require('watson-developer-cloud');
 
 var Sound = require('node-arecord');
@@ -17,7 +17,7 @@ var audioFile = "output.raw";
 //var recordingsPath = require('path').resolve(__dirname, '../recordings');
 var recordingsPath = "/tmp";//TODO: Change this later
 
-var speech = gcloud.speech({
+var speech = GOOGLE_SPEECH({
   projectId: 'granslive',
   keyFilename: googleKeyPath
 });
@@ -32,7 +32,7 @@ var watsonResponse = {};
 var methods = {};
 
 module.exports = function() {
-	
+
 	methods.refreshAudioFile = function(cb){
 		fs.exists(audioFile, function(exists) {
 			  if(exists) {
@@ -43,20 +43,20 @@ module.exports = function() {
 				  cb(null);
 			  }
 			});
-		
+
 	};
-	
+
 	methods.startSTT = function(req, res, next){
 		console.log('\n\n<<<<<<<< IN startSTT >>>>>>>');
 		sound = new Sound({
-			 debug: true, 
+			 debug: true,
 			 destination_folder: recordingsPath,
 			 filename: audioFile,
 			 alsa_format: 'S16_LE',
 			 alsa_device: 'plughw:1,0',
 			 alsa_addn_args: ['-c', '1', '-r', 16000, '-t', 'raw']
 			});
-		
+
 		sound.on("complete", function(){
 		    console.log('Done with recording!');
 		    methods.convertSTT(recordingsPath+"/"+audioFile, function(result){
@@ -65,9 +65,9 @@ module.exports = function() {
 			      }
 			});
 		});
-		
+
 		sound.record();
-		
+
 		setTimeout(function(){
 		    console.log('stop recording after 5 seconds !');
 		    sound.stop();
@@ -79,7 +79,7 @@ module.exports = function() {
 			sound.stop();
 		}
 	};
-	
+
 	methods.convertSTT = function(audioFilePath, cb){
 		var request = {
 				  config: {
@@ -91,7 +91,7 @@ module.exports = function() {
 				  interimResults: false,
 				  verbose: true
 				};
-		
+
 		fs.createReadStream(audioFilePath)
 		  .on('error', console.error)
 		  .pipe(speech.createRecognizeStream(request))
@@ -105,7 +105,7 @@ module.exports = function() {
 		    }
 		  });
 	};
-	
+
 	methods.convertTTS = function(query, res, next){
 //		var outfile = require('path').resolve(__dirname, '../recordings/tts.opus');
 		var outfile = recordingsPath+"/tts.opus";
@@ -127,7 +127,7 @@ module.exports = function() {
 		  transcript.pipe(res);
 		  */
 	};
-	
+
 	methods.getCommandResponse = function(command, res, next){
 		var params = {
 				input: command
@@ -144,9 +144,9 @@ module.exports = function() {
 						for(var i = 0 ; i < watsonResponse.output.text.length; i++){
 							respText += watsonResponse.output.text[i]+" ";
 						}
-						
+
 						console.log("Conversation Response: ", respText);
-						var query = {"voice": speakInVoice, 
+						var query = {"voice": speakInVoice,
 			  			  		"text": respText,
 			  			  		"accept": "audio/ogg; codec=opus",
 			  			  		"download": true };
@@ -154,7 +154,7 @@ module.exports = function() {
 					}
 				}else{
 					if(watsonResponse && watsonResponse.context && watsonResponse.context.next_action != "DO_NOTHING"){
-						var query = {"voice": speakInVoice, 
+						var query = {"voice": speakInVoice,
 			  			  		"text": "Sorry, I can not help you with this.",
 			  			  		"accept": "audio/ogg; codec=opus",
 			  			  		"download": true };
@@ -166,7 +166,7 @@ module.exports = function() {
 			}
 		});
 	};
-	
+
 	methods.playAudioFrom = function(filePath) {
 		console.log('IN playAudioFrom: >> ', filePath);
         console.log('playing %s', filePath);
@@ -176,4 +176,3 @@ module.exports = function() {
 return methods;
 
 }
-

@@ -1,9 +1,6 @@
 
 
 # buddy
-GransLive Buddy
-
-## Description
 GransLive Buddy works like Amazon Echo or Google Home.  This uses following APIs or services:
 
 1: Google Speech To Text Service
