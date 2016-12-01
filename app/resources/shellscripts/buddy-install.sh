@@ -119,7 +119,7 @@ fi
 
 cd ..
 
-if [ ! -d "granslive-gateway" ]; then
+if [ ! -d "buddy" ]; then
 	echo "<<<< GOING TO CREATE GRANSLIVE APPLICATION >>>>>"
 	sudo git clone https://github.com/sinny777/buddy.git
 	cd buddy
