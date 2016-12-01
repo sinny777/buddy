@@ -1,0 +1,34 @@
+{
+  "name": "angular-filesystem",
+  "homepage": "https://github.com/maciel310/angular-filesystem",
+  "authors": [
+    "maciel310"
+  ],
+  "description": "AngularJS Service implementation of the Web FileSystem API",
+  "main": "src/filesystem.js",
+  "keywords": [
+    "AngularJS",
+    "FileSystem",
+    "Service"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "*"
+  },
+  "_release": "109bd79486",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "109bd79486fd8cbfaabf59b4549ce3353e28e3e0"
+  },
+  "_source": "https://github.com/maciel310/angular-filesystem.git",
+  "_target": "*",
+  "_originalSource": "angular-filesystem"
+}
