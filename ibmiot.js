@@ -4,7 +4,6 @@ var SerialPort = require("serialport");
 var usbPort = "/dev/ttyUSB0";
 var CONFIG = require('./config').get();
 
-var simulatorService = require("./simulatorService")();
 var appClient;
 
 var serialPort;
@@ -62,7 +61,8 @@ methods.initSerialPort = function(appClient){
 	  serialPort.on("open", function () {
 		  console.log("Serial Port Opened Successfully >>>>> ");
 		  serialPort.on('data', function(data) {
-		      console.log('data received: ' + data);
+		      console.log('data received: ');
+		      console.log(data);
 		      methods.handleDataFromDevice(appClient, data);
 		  });
 	  });
@@ -107,36 +107,6 @@ methods.publishMessage = function(appClient, deviceWithData){
 		console.log(err);
 	}
   };
-
-methods.startSimulatingAll = function(appClient){
-	 setInterval(function(){
-			fetchDevicesFromLocal(function(simulators){
-				for(var index in simulators) { 
-					  var simulator = simulators[index];
-					  
-//					    if(simulator.deviceId != 'SM-111-111-001'){
-//				  			continue;
-//				  		}
-					  
-						    var device = {"type":simulator.deviceType, "uniqueId": simulator.deviceId, "data": {"hb": 0, "btemp":0 , "temp": 0, "hum": 0}};
-						    var timeNow = new Date();
-						    device.configuration = simulator.configuration;
-						    device.assignedTo = simulator.assignedTo;
-						    device.data.id = simulator.deviceId;
-						    device.data.ts = timeNow;
-						    device.data.gatewayId = gatewayId;
-						    simulatorService.simulateDeviceData(device, function(data){
-						    	addWorkerInfo(data, function(deviceWithData){
-						    		if(deviceWithData.data.assignedTo){
-						    			 methods.publishMessage(appClient, deviceWithData);
-						    		}
-						    	});
-						    });
-				  }
-			});
-	 }, CONFIG.SIMULATE_FREQUENCY * 1000);
-	
-};
 
 
 methods.initGateway();
