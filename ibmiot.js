@@ -96,13 +96,9 @@ methods.handleDataFromDevice = function(appClient, deviceData){
 
 methods.publishMessage = function(appClient, deviceWithData){
 	try{
-		if(!deviceWithData.uniqueId){
-			 var sensorData = {"d": deviceWithData.data};
-			 console.log('\n\n<<<<<< IN publishMessage >>>>>>>>> myData: ', JSON.stringify(deviceWithData));
-			 appClient.publishDeviceEvent(deviceWithData.type, deviceWithData.uniqueId, "status", "json", sensorData);
-		}else{
-			console.log('<<<<<< NO UniqueId for DEVICE is Set >>>>>>>> ');
-		}
+		 var sensorData = {"d": deviceWithData.data};
+		 console.log('\n\n<<<<<< IN publishMessage >>>>>>>>> myData: ', JSON.stringify(deviceWithData));
+		 appClient.publishDeviceEvent(deviceWithData.type, deviceWithData.uniqueId, "status", "json", sensorData);
 	}catch(err){
 		console.log(err);
 	}
