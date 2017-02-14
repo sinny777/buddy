@@ -58,11 +58,16 @@ methods.initSerialPort = function(appClient){
 	    bufferSize: 131072,
 	    parser: SerialPort.parsers.readline('\n')
 	  });
+	  
 	  serialPort.on("open", function () {
-	    serialPort.on('data', function(data) {
+		  console.log("Serial Port Opened Successfully >>>>> ");
+	  });
+	  serialPort.on('data', function(data) {
 	      console.log('data received: ' + data);
 	      methods.handleDataFromDevice(appClient, data);
-	    });
+	  });
+	  serialPort.on('close', function(data) {
+		  console.log("Serial Port Closed Successfully >>>>> ");
 	  });
 	  
 	  serialPort.on('error', function(err) {
