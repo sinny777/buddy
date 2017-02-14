@@ -61,11 +61,12 @@ methods.initSerialPort = function(appClient){
 	  
 	  serialPort.on("open", function () {
 		  console.log("Serial Port Opened Successfully >>>>> ");
+		  serialPort.on('data', function(data) {
+		      console.log('data received: ' + data);
+		      methods.handleDataFromDevice(appClient, data);
+		  });
 	  });
-	  serialPort.on('data', function(data) {
-	      console.log('data received: ' + data);
-	      methods.handleDataFromDevice(appClient, data);
-	  });
+	  
 	  serialPort.on('close', function(data) {
 		  console.log("Serial Port Closed Successfully >>>>> ");
 	  });
