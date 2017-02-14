@@ -73,7 +73,7 @@ void loop()
   
   String val = "{\"type\":\"microcontroller\", \"uniqueId\":\""+uniqueId+"\", \"data\": {\"temp\":" +String(temperature)+", \"hum\":"+String(humidity)+"}}";
   
-  Serial.print( val );
+  Serial.println( val );
 
   delay(delayInSec * 1000);
   timer++;
